@@ -27,8 +27,5 @@
     "psr-0": {
       "ContentBuilder\\": "helpers/"
     }
-  },
-  "require": {
-    "wpackagist-plugin/timber-library": "1.*"
   }
 }
