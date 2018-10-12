@@ -1,0 +1,8 @@
+{% set block_directory = 'partials/flex-blocks/text/' %}
+{% set layout = 'default' %}
+
+{% if user.wp_capabilities.administrator is defined %}
+    {% set layout = 'admin' %}
+{% endif %}
+
+{% include block_directory  ~ layout ~ '.twig' %}
