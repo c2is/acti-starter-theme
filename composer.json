@@ -1,18 +1,18 @@
 {
-  "name": "upstatement/timber-starter-theme",
+  "name": "acti/acti-starter-theme",
   "description": "Starter theme to build a Timber theme",
   "type": "wordpress-theme",
   "minimum-stability": "stable",
   "authors": [
     {
-      "name": "jarednova",
-      "email": "jared@upstatement.com"
+      "name": "ade",
+      "email": "a.delcroix@acti.fr"
     }
   ],
   "repositories": [
     {
       "type": "composer",
-      "url": "https://wpackagist.org"
+      "url": "https://packagist.org"
     }
   ],
   "extra": {
