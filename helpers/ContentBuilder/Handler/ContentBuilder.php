@@ -1,15 +1,8 @@
 <?php
 
-namespace ContentBuilder;
+namespace ContentBuilder\Handler;
 
 use Timber\Timber;
-
-$currentFolder = realpath(__DIR__);
-define('CONTENTBUILDER_BASE_PATH', $currentFolder);
-define('CONTENTBUILDER_NAMESPACE_SRC', '/src');
-define('CONTENTBUILDER_NAMESPACE_PUBLIC', '/public');
-
-require CONTENTBUILDER_BASE_PATH . CONTENTBUILDER_NAMESPACE_SRC . '/autoload.php';
 
 final class ContentBuilder
 {

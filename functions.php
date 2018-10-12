@@ -8,7 +8,7 @@
  * @since   Timber 0.1
  */
 
-require_once __DIR__ . '/helpers/content-builder/ContentBuilder.php';
+require __DIR__ . '/vendor/autoload.php';
 
 if ( ! class_exists( 'Timber' ) ) {
 	add_action( 'admin_notices', function() {

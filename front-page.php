@@ -7,7 +7,10 @@
  * @since    Timber 0.1
  */
 
-$contentBuilder = new \ContentBuilder\ContentBuilder($post);
+
+use ContentBuilder\Handler\ContentBuilder;
+
+$contentBuilder = new \ContentBuilder\Handler\ContentBuilder($post);
 $post = new TimberPost();
 
 $context = Timber::get_context();
