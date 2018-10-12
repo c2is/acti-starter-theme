@@ -8,8 +8,8 @@
  * @since   Timber 0.1
  */
 
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/handler/StarterSite.php';
+require get_template_directory() . '/vendor/autoload.php';
+require get_template_directory() . '/handler/StarterSite.php';
 
 if ( ! class_exists( 'Timber' ) ) {
 	add_action( 'admin_notices', function() {

@@ -15,7 +15,7 @@ class StarterSite extends Timber\Site {
     /** Load all files under functions directory, which contains all hooks **/
     public function load_functions()
     {
-        $functionsDirectory = get_template_directory() . '/functions/';
+        $functionsDirectory = get_stylesheet_directory() . '/functions/';
         if (is_dir($functionsDirectory))
         {
             $files = scandir($functionsDirectory);
