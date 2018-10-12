@@ -10,7 +10,7 @@
 
 use ContentBuilder\Handler\ContentBuilder;
 
-$contentBuilder = new \ContentBuilder\Handler\ContentBuilder($post);
+$contentBuilder = new ContentBuilder($post);
 $post = new TimberPost();
 
 $context = Timber::get_context();

@@ -1,7 +1,10 @@
 <?php
 
-//add_action('admin_init', 'administrator_capabilities');
+add_action('admin_init', 'administrator_capabilities');
 
+/**
+ * Add administrator capabilities
+ */
 function administrator_capabilities()
 {
     $role = get_role('administrator');
@@ -10,14 +13,17 @@ function administrator_capabilities()
     manage_acti_post_type($role);
 }
 
+/**
+ * Add caps to handle Acti custom post type
+ * @param $role WP_Role
+ */
 function manage_acti_post_type($role)
 {
-//    'edit_acti',
-//        'read_post'          => 'read_acti',
-//        'delete_post'        => 'delete_acti',
-//        'edit_posts'         => 'edit_actis',
-//        'edit_others_posts'  => 'edit_others_actis',
-//        'publish_posts'      => 'publish_actis',
-//        'read_private_posts' => 'read_private_actis',
-//        'create_posts'       => 'edit_actis',
+    $role->add_cap('read_acti');
+    $role->add_cap('delete_acti');
+    $role->add_cap('edit_actis');
+    $role->add_cap('edit_others_actis');
+    $role->add_cap('publish_actis');
+    $role->add_cap('read_private_actis');
+    $role->add_cap('edit_actis');
 }
