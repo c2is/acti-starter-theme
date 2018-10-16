@@ -25,7 +25,8 @@
   },
   "autoload": {
     "psr-0": {
-      "ContentBuilder\\": "helpers/"
+      "ContentBuilder\\": "helpers/",
+      "Capabilities\\": "helpers/"
     }
   }
 }
