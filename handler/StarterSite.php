@@ -7,8 +7,9 @@ class StarterSite extends Timber\Site {
 
         add_filter('get_twig', array($this, 'addToTwig'));
 
-        $this->loadChildFunctions();
+        /* Handle hooks */
         $this->loadParentFunctions();
+        $this->loadChildFunctions();
 
         parent::__construct();
     }
