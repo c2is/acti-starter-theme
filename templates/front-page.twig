@@ -1,0 +1,10 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <h1 class="article-h1">{{post.title}}</h1>
+        <div class="article-body">
+            {{ contentBuilder|raw }}
+        </div>
+    </div>
+{% endblock %}
