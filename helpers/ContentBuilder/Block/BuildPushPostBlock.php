@@ -53,6 +53,7 @@ final class BuildPushPostBlock implements BuildFieldBlock
      */
     private function _getPostsToPush()
     {
+        $postTypes = get_sub_field('push_post_type');
         $categories = get_sub_field('push_post_category');
         $number = get_sub_field('push_post_number');
         $order = get_sub_field('push_post_order');
@@ -62,7 +63,7 @@ final class BuildPushPostBlock implements BuildFieldBlock
             'category' => $categories,
             'orderby' => $orderBy,
             'order' => $order,
-            'post_type' => array('post', 'acti')
+            'post_type' => $postTypes
         );
 
         $posts = get_posts($postArgs);
