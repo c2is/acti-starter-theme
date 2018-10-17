@@ -1,8 +1,6 @@
 <?php
 
-namespace ContentBuilder\Handler;
-
-use Timber\Timber;
+namespace ContentBuilder;
 
 final class ContentBuilder
 {
@@ -12,7 +10,7 @@ final class ContentBuilder
     private $_post;
 
     /**
-     * @var array API of Timber
+     * @var Context
      */
     private $_context;
 
@@ -25,8 +23,9 @@ final class ContentBuilder
     {
         $this->_post = $post;
         $this->_html = '';
+        $this->_context = new Context();
 
-        $this->_createContext();
+        $this->_setGlobalContextData();
         $this->_buildContentHtml();
     }
 
@@ -46,6 +45,8 @@ final class ContentBuilder
             {
                 the_row();
 
+                $this->_setCacheContext();
+
                 $fieldClassName = 'ContentBuilder\Blocks\Build' . ucfirst(get_row_layout()) . 'Html';
                 $fieldClass = new $fieldClassName($this->_context);
                 $this->_html .= $fieldClass->buildHtml();
@@ -53,13 +54,35 @@ final class ContentBuilder
         }
     }
 
-    /**
-     * Declare and populate Timber context
-     */
-    private function _createContext()
+    private function _setGlobalContextData()
     {
-        $this->_context = Timber::get_context();
-        $this->_context['post'] = $this->_post;
-        $this->_context['user'] = new \Timber\User();
+        $data = array(
+            'post' => $this->_post,
+            'user' => new \Timber\User()
+        );
+
+        $this->_context->setContext($data);
+    }
+
+    /**
+     * Populate Timber cache context for block
+     */
+    private function _setCacheContext()
+    {
+        $cacheContext = array(
+            'enabled' => get_sub_field('block_cache_enable'),
+            'duration' => false
+        );
+
+        /* Set cache duration only if cache of block is enabled */
+        if (get_sub_field('block_cache_enable')) {
+            $cacheContext['duration'] = get_sub_field('block_cache_duration');
+        }
+
+        $data = array(
+            'cache' => $cacheContext
+        );
+
+        $this->_context->setContext($data);
     }
 }

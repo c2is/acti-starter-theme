@@ -9,9 +9,14 @@
  * @since    Timber 0.1
  */
 
+use ContentBuilder\ContentBuilder;
+
+$contentBuilder = new ContentBuilder($post);
+$post = new TimberPost();
+
 $context = Timber::get_context();
-$post = Timber::query_post();
 $context['post'] = $post;
+$context['contentBuilder'] = $contentBuilder->getContentHtml();
 
 if ( post_password_required( $post->ID ) ) {
 	Timber::render( 'single-password.twig', $context );

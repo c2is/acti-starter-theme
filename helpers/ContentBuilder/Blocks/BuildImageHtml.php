@@ -2,15 +2,20 @@
 
 namespace ContentBuilder\Blocks;
 
+use ContentBuilder\Context;
 use Timber\Timber;
 
 final class BuildImageHtml implements BuildFieldHtml
 {
+    /**
+     * @var Context
+     */
     private $_context;
 
     public function __construct($context)
     {
         $this->_context = $context;
+        $this->buildDataContext();
     }
 
     /**
@@ -19,22 +24,25 @@ final class BuildImageHtml implements BuildFieldHtml
      */
     public function buildHtml()
     {
-        $this->_context['data'] = $this->buildDataContext();
-
-        $html = Timber::compile('partials/flex-blocks/image.twig', $this->_context);
+        $context = $this->_context->getContext();
+        $html = Timber::compile('partials/flex-blocks/image.twig', $context, $context['cache']['duration']);
 
         return $html;
     }
 
     /**
-     * @return array context block data
+     * Add block data to context
      */
     public function buildDataContext()
     {
-        $data = array(
+        $blockData = array(
             'image' => get_sub_field('image'),
         );
 
-        return $data;
+        $data = array(
+            'data' => $blockData
+        );
+
+        $this->_context->setContext($data);
     }
 }

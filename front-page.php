@@ -8,7 +8,7 @@
  */
 
 
-use ContentBuilder\Handler\ContentBuilder;
+use ContentBuilder\ContentBuilder;
 
 $contentBuilder = new ContentBuilder($post);
 $post = new TimberPost();

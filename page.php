@@ -21,7 +21,13 @@
  * @since    Timber 0.1
  */
 
-$context = Timber::get_context();
+use ContentBuilder\ContentBuilder;
+
+$contentBuilder = new ContentBuilder($post);
 $post = new TimberPost();
+
+$context = Timber::get_context();
 $context['post'] = $post;
+$context['contentBuilder'] = $contentBuilder->getContentHtml();
+
 Timber::render( array( 'page-' . $post->post_name . '.twig', 'page.twig' ), $context );
