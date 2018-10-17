@@ -47,13 +47,18 @@ final class ContentBuilder
 
                 $this->_setCacheContext();
 
-                $fieldClassName = 'ContentBuilder\Blocks\Build' . ucfirst(get_row_layout()) . 'Html';
+                /* Layout format in ACF field is my_layout, format it to MyLayout */
+                $layoutName = str_replace('_', '', ucwords(get_row_layout(), '_'));
+                $fieldClassName = 'ContentBuilder\Block\Build' . $layoutName . 'Block';
                 $fieldClass = new $fieldClassName($this->_context);
                 $this->_html .= $fieldClass->buildHtml();
             }
         }
     }
 
+    /**
+     * Populate Timber global context for block
+     */
     private function _setGlobalContextData()
     {
         $data = array(

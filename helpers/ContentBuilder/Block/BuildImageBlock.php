@@ -1,11 +1,11 @@
 <?php
 
-namespace ContentBuilder\Blocks;
+namespace ContentBuilder\Block;
 
 use ContentBuilder\Context;
 use Timber\Timber;
 
-final class BuildTextHtml implements BuildFieldHtml
+final class BuildImageBlock implements BuildFieldBlock
 {
     /**
      * @var Context
@@ -15,18 +15,17 @@ final class BuildTextHtml implements BuildFieldHtml
     public function __construct($context)
     {
         $this->_context = $context;
-
         $this->buildDataContext();
     }
 
     /**
-     * Twig file : text.twig
-     * @return string html content of text block
+     * Twig file : image.twig
+     * @return string html content of image block
      */
     public function buildHtml()
     {
         $context = $this->_context->getContext();
-        $html = Timber::compile('partials/flex-blocks/text.twig', $context, $context['cache']['duration']);
+        $html = Timber::compile('partials/flex-blocks/image.twig', $context, $context['cache']['duration']);
 
         return $html;
     }
@@ -37,7 +36,7 @@ final class BuildTextHtml implements BuildFieldHtml
     public function buildDataContext()
     {
         $blockData = array(
-            'text' => get_sub_field('text')
+            'image' => get_sub_field('image_image'),
         );
 
         $data = array(

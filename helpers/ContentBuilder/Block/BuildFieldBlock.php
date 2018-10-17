@@ -1,8 +1,8 @@
 <?php
 
-namespace ContentBuilder\Blocks;
+namespace ContentBuilder\Block;
 
-interface BuildFieldHtml
+interface BuildFieldBlock
 {
 
     public function __construct($context);

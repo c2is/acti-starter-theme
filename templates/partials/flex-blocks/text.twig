@@ -5,4 +5,8 @@
     {% set layout = 'admin' %}
 {% endif %}
 
+{% if fn('is_front_page') %}
+    {% set layout = 'front' %}
+{% endif %}
+
 {% include block_directory  ~ layout ~ '.twig' %}

@@ -1,1 +1,4 @@
-<img src="{{ image.url }}" />
+{% set block_directory = 'partials/flex-blocks/image/' %}
+{% set layout = 'default' %}
+
+{% include block_directory  ~ layout ~ '.twig' with {'text': data.text} %}
