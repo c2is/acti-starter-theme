@@ -15,9 +15,9 @@ if (function_exists('acf_add_options_page'))
     /* Admin submenu theme settings */
     $themeOptionPageArgs = array(
         'page_title' => 'Options générales du thème',
-        'menu_title' => 'Thème',
+        'menu_title' => 'Cache',
         'parent_slug' => 'theme-general-settings',
-        'capability' => 'edit_theme_general_settings',
+        'capability' => 'edit_cache_general_settings',
     );
     acf_add_options_sub_page($themeOptionPageArgs);
 }
