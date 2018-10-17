@@ -1,7 +1,7 @@
 <?php
 
 /* Functions to load ACF select values */
-add_filter('acf/load_field/name=push_post_type', 'ContentBuilder\Admin\PushPostAdmin::loadPushPostTypes');
+add_filter('acf/load_field/name=push_post_type', 'ContentBuilder\Admin\BlockPushPostAdmin::loadPushPostTypes');
 
 /* Function to load default values */
 add_filter('acf/load_field/name=block_cache_enable', 'ContentBuilder\Admin\BlockCacheAdmin::loadCacheStatusDefaultValue');

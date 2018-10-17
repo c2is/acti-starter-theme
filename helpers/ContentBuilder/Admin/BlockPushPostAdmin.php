@@ -2,7 +2,7 @@
 
 namespace ContentBuilder\Admin;
 
-final class PushPostAdmin
+final class BlockPushPostAdmin
 {
     /**
      * Set list of post types for block push_post
