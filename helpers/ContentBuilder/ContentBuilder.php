@@ -2,6 +2,9 @@
 
 namespace ContentBuilder;
 
+use ActiCache\CacheKeys;
+use ActiCache\Pool;
+
 final class ContentBuilder
 {
     /**
@@ -15,6 +18,11 @@ final class ContentBuilder
     private $_context;
 
     /**
+     * @var Pool
+     */
+    private $_pool;
+
+    /**
      * @var string html of content builder blocks
      */
     private $_html;
@@ -24,6 +32,7 @@ final class ContentBuilder
         $this->_post = $post;
         $this->_html = '';
         $this->_context = new Context();
+        $this->_pool = new Pool();
 
         $this->_setGlobalContextData();
         $this->_buildContentHtml();
@@ -41,17 +50,19 @@ final class ContentBuilder
     {
         if (have_rows('content_builder', $this->_post->ID))
         {
+            $i = 1;
             while (have_rows('content_builder', $this->_post->ID))
             {
                 the_row();
 
-                $this->_setCacheContext();
+                $this->_setCacheContext($i);
 
                 /* Layout format in ACF field is my_layout, format it to MyLayout */
                 $layoutName = str_replace('_', '', ucwords(get_row_layout(), '_'));
                 $fieldClassName = 'ContentBuilder\Block\Build' . $layoutName . 'Block';
-                $fieldClass = new $fieldClassName($this->_context);
-                $this->_html .= $fieldClass->buildHtml();
+                $fieldClass = new $fieldClassName($this->_context, $this->_pool->getPool());
+                $this->_html .= $fieldClass->renderHtml();
+                $i++;
             }
         }
     }
@@ -71,16 +82,21 @@ final class ContentBuilder
 
     /**
      * Populate Timber cache context for block
+     *
+     * @var $blockIndex int index of block
      */
-    private function _setCacheContext()
+    private function _setCacheContext($blockIndex)
     {
         $cacheContext = array(
             'enabled' => get_sub_field('block_cache_enable'),
-            'duration' => false
+            'duration' => false,
+            'key' => false
         );
 
         /* Set cache duration only if cache of block is enabled */
-        if (get_sub_field('block_cache_enable')) {
+        if (get_sub_field('block_cache_enable'))
+        {
+            $cacheContext['key'] = CacheKeys::getBlockBaseCacheKey($this->_post->ID) . $blockIndex;
             $cacheContext['duration'] = get_sub_field('block_cache_duration');
         }
 

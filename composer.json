@@ -25,6 +25,7 @@
   },
   "autoload": {
     "psr-0": {
+      "ActiCache\\": "helpers/",
       "ContentBuilder\\": "helpers/",
       "Capabilities\\": "helpers/"
     }
