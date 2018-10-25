@@ -8,40 +8,37 @@ class StarterSite extends Timber\Site {
         add_filter('get_twig', array($this, 'addToTwig'));
 
         /* Handle hooks */
-        $this->loadParentFunctions();
-        $this->loadChildFunctions();
+        $parentFunctionFolders = get_template_directory() . '/functions/';
+        $childFunctionFolders = get_stylesheet_directory() . '/functions/';
+        $this->loadFunctionsFiles($parentFunctionFolders);
+        $this->loadFunctionsFiles($childFunctionFolders);
 
         parent::__construct();
     }
 
-    /** Load all files under functions directory in child theme, which contains all hooks **/
-    public function loadChildFunctions()
+    /**
+     * Load all files under functions directory, which contains all hooks
+     *
+     * @param $functionsDirectory string path to the functions directory
+     */
+    public function loadFunctionsFiles($functionsDirectory)
     {
-        $functionsDirectory = get_stylesheet_directory() . '/functions/';
-        if (is_dir($functionsDirectory))
-        {
-            $files = scandir($functionsDirectory);
-            foreach ($files as $file)
-            {
-                if ($file != '.' && $file != '..') {
-                    require_once $functionsDirectory . $file;
-                }
-            }
-        }
-    }
+        $files = scandir($functionsDirectory);
 
-    /** Load all files under functions directory in parent theme, which contains all hooks **/
-    public function loadParentFunctions()
-    {
-        $functionsDirectory = get_template_directory() . '/functions/';
-        if (is_dir($functionsDirectory))
+        unset($files[array_search('.', $files, true)]);
+        unset($files[array_search('..', $files, true)]);
+
+        // prevent empty ordered elements
+        if (count($files) < 1)
+            return;
+
+        foreach($files as $file)
         {
-            $files = scandir($functionsDirectory);
-            foreach ($files as $file)
-            {
-                if ($file != '.' && $file != '..') {
-                    require_once $functionsDirectory . $file;
-                }
+            if(is_dir($functionsDirectory . '/' . $file)) {
+                $this->loadFunctionsFiles($functionsDirectory . '/' . $file);
+            }
+            else {
+                require_once $functionsDirectory . '/' . $file;
             }
         }
     }
