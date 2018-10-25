@@ -10,6 +10,6 @@ final class CacheKeys
      */
     public static function getLayoutBaseCacheKey($postId)
     {
-        return 'post-' . $postId . '/layout/';
+        return get_locale() . '/post-' . $postId . '/layout/';
     }
 }

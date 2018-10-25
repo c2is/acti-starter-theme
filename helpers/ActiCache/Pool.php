@@ -41,13 +41,11 @@ final class Pool
     private function _setNamespace()
     {
         if (is_multisite()) {
-            $siteName = get_current_site()->site;
+            $namespace = get_current_site()->site;
         }
         else {
-            $siteName = get_bloginfo('name');
+            $namespace = get_bloginfo('name');
         }
-
-        $namespace = $siteName . '-' . get_locale();
 
         /* Namespace must be alphanumeric only string */
         $this->_pool->setNamespace(FormatTool::camelCase($namespace));

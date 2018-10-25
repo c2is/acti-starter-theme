@@ -83,10 +83,10 @@ final class ContentBuilder
                                 $cache->expiresAt($expireDate);
                             } catch (\Exception $e) {
                                 var_dump($e);
-                                die;
                             }
                         }
                         $pool->save($cache);
+                        $pool->purge();
                     }
                 }
                 else {
