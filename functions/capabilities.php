@@ -1,15 +1,13 @@
 <?php
 
-add_action('admin_init', 'acti_administrator_capabilities');
+add_action('admin_init', 'actiAdministratorCapabilities');
 
 /**
  * Add administrator capabilities
  */
-function acti_administrator_capabilities()
+function actiAdministratorCapabilities()
 {
     $role = get_role('administrator');
-
-    $capabilitesManager = new \Capabilities\Capabilities();
 
     /* Capabilies to edit admin general theme settings and others */
     $actiCaps = array(
@@ -17,5 +15,5 @@ function acti_administrator_capabilities()
         'edit_cache_general_settings',
         'edit_builder_cache_layout'
     );
-    $capabilitesManager::addCaps($actiCaps, $role);
+    \Capabilities\Capabilities::addCaps($actiCaps, $role);
 }
