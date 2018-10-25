@@ -8,7 +8,7 @@ add_filter('acf/load_field/name=layout_cache_enable', 'ContentBuilder\Admin\Layo
 add_filter('acf/load_field/name=layout_cache_duration', 'ContentBuilder\Admin\LayoutCacheAdmin::loadCacheDurationDefaultValue');
 
 /* Delete post layout cache on post save */
-add_action('save_post', 'ActiCache\Handler\LayoutCacheHandler::clearPostLayoutsCache', 1);
+add_action('save_post', 'ActiCache\Handler\PostCacheHandler::rebuildPostCache', 1);
 
 /* Show cache layout fields */
 add_filter('acf/prepare_field', 'ContentBuilder\Admin\LayoutCacheAdmin::showLayoutCacheField');
