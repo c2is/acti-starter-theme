@@ -1,6 +1,5 @@
 <?php
 
-/*
 add_action('init', 'acti_menus');
 
 add_filter('timber/context', 'add_menus_to_context');
@@ -21,4 +20,3 @@ function add_menus_to_context()
 
     return $context;
 }
-*/

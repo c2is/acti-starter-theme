@@ -1,11 +1,10 @@
 <?php
 
-// add_action('init', 'register_acti_post_type');
+add_action('init', 'register_acti_post_type');
 
 /**
  * Create the Acti post type
  */
-/*
 function register_acti_post_type()
 {
     $labels = array(
@@ -37,4 +36,3 @@ function register_acti_post_type()
 
     register_post_type('acti', $args);
 }
-*/
