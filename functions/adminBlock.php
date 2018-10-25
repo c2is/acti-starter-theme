@@ -4,7 +4,11 @@
 add_filter('acf/load_field/name=push_post_type', 'ContentBuilder\Admin\BlockPushPostAdmin::loadPushPostTypes');
 
 /* Function to load default values */
-add_filter('acf/load_field/name=block_cache_enable', 'ContentBuilder\Admin\BlockCacheAdmin::loadCacheStatusDefaultValue');
-add_filter('acf/load_field/name=block_cache_duration', 'ContentBuilder\Admin\BlockCacheAdmin::loadCacheDurationDefaultValue');
+add_filter('acf/load_field/name=layout_cache_enable', 'ContentBuilder\Admin\LayoutCacheAdmin::loadCacheStatusDefaultValue');
+add_filter('acf/load_field/name=layout_cache_duration', 'ContentBuilder\Admin\LayoutCacheAdmin::loadCacheDurationDefaultValue');
 
-add_action('save_post', 'ActiCache\Handler\BlockCacheHandler::clearPostBlocksCache', 1);
+/* Delete post layout cache on post save */
+add_action('save_post', 'ActiCache\Handler\LayoutCacheHandler::clearPostLayoutsCache', 1);
+
+/* Show cache layout fields */
+add_filter('acf/prepare_field', 'ContentBuilder\Admin\LayoutCacheAdmin::showLayoutCacheField');

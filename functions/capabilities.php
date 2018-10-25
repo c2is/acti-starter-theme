@@ -14,7 +14,8 @@ function acti_administrator_capabilities()
     /* Capabilies to edit admin general theme settings and others */
     $actiCaps = array(
         'edit_theme_settings',
-        'edit_cache_general_settings'
+        'edit_cache_general_settings',
+        'edit_builder_cache_layout'
     );
     $capabilitesManager::addCaps($actiCaps, $role);
 }

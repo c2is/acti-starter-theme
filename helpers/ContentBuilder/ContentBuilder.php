@@ -4,6 +4,9 @@ namespace ContentBuilder;
 
 use ActiCache\CacheKeys;
 use ActiCache\Pool;
+use DateInterval;
+use DateTime;
+use Stash\Invalidation;
 
 final class ContentBuilder
 {
@@ -35,7 +38,7 @@ final class ContentBuilder
         $this->_pool = new Pool();
 
         $this->_setGlobalContextData();
-        $this->_buildContentHtml();
+        $this->_processLayouts();
     }
 
     public function getContentHtml()
@@ -43,28 +46,82 @@ final class ContentBuilder
         return $this->_html;
     }
 
-    /**
-     * Populate html with flex content blocks located in theme/partials/flex-blocks/
-     */
-    private function _buildContentHtml()
+    private function _processLayouts()
     {
-        if (have_rows('content_builder', $this->_post->ID))
+        /** @var \Stash\Pool $pool */
+        $pool = $this->_pool->getPool();
+
+        if (have_rows('content_group_builder', $this->_post->ID))
         {
-            $i = 1;
-            while (have_rows('content_builder', $this->_post->ID))
+            $blockIndex = 1;
+            while (have_rows('content_group_builder', $this->_post->ID))
             {
                 the_row();
 
-                $this->_setCacheContext($i);
+                /* Set cache only if cache of layout is enabled */
+                if (get_sub_field('layout_cache_enable'))
+                {
+                    $cacheKey = CacheKeys::getLayoutBaseCacheKey($this->_post->ID) . $blockIndex;
+                    $cacheDuration = get_sub_field('layout_cache_duration');
+
+                    $cache = $pool->getItem($cacheKey);
+                    /* Serve old cache until the new one is generated */
+                    $cache->setInvalidationMethod(Invalidation::OLD);
+                    $html = $cache->get();
+                    if ($cache->isMiss())
+                    {
+                        $cache->lock();
+
+                        $html = $this->_buildContentHtml();
+
+                        $cache->set($html);
+                        if (absint($cacheDuration) > 0) {
+                            try {
+                                $interval = new DateInterval('PT' . $cacheDuration . 'S');
+                                $expireDate = new DateTime();
+                                $expireDate->add($interval);
+                                $cache->expiresAt($expireDate);
+                            } catch (\Exception $e) {
+                                var_dump($e);
+                                die;
+                            }
+                        }
+                        $pool->save($cache);
+                    }
+                }
+                else {
+                    $html = $this->_buildContentHtml();
+                }
+
+                $this->_html .= $html;
+                $blockIndex++;
+            }
+        }
+    }
+
+    /**
+     * Create html with flex content blocks located in theme/partials/flex-blocks/
+     *
+     * @return string Html content
+     */
+    private function _buildContentHtml()
+    {
+        $html = '';
+        if (have_rows('content_builder'))
+        {
+            while (have_rows('content_builder'))
+            {
+                the_row();
 
                 /* Layout format in ACF field is my_layout, format it to MyLayout */
                 $layoutName = str_replace('_', '', ucwords(get_row_layout(), '_'));
                 $fieldClassName = 'ContentBuilder\Block\Build' . $layoutName . 'Block';
-                $fieldClass = new $fieldClassName($this->_context, $this->_pool->getPool());
-                $this->_html .= $fieldClass->renderHtml();
-                $i++;
+                $fieldClass = new $fieldClassName($this->_context);
+                $html .= $fieldClass->renderHtml();
             }
         }
+
+        return $html;
     }
 
     /**
@@ -75,33 +132,6 @@ final class ContentBuilder
         $data = array(
             'post' => $this->_post,
             'user' => new \Timber\User()
-        );
-
-        $this->_context->setContext($data);
-    }
-
-    /**
-     * Populate Timber cache context for block
-     *
-     * @var $blockIndex int index of block
-     */
-    private function _setCacheContext($blockIndex)
-    {
-        $cacheContext = array(
-            'enabled' => get_sub_field('block_cache_enable'),
-            'duration' => false,
-            'key' => false
-        );
-
-        /* Set cache duration only if cache of block is enabled */
-        if (get_sub_field('block_cache_enable'))
-        {
-            $cacheContext['key'] = CacheKeys::getBlockBaseCacheKey($this->_post->ID) . $blockIndex;
-            $cacheContext['duration'] = get_sub_field('block_cache_duration');
-        }
-
-        $data = array(
-            'cache' => $cacheContext
         );
 
         $this->_context->setContext($data);

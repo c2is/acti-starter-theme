@@ -3,7 +3,6 @@
 namespace ContentBuilder\Block;
 
 use ContentBuilder\Context;
-use Stash\Pool;
 
 interface BuildFieldBlock
 {
@@ -11,9 +10,8 @@ interface BuildFieldBlock
     /**
      * BuildFieldBlock constructor.
      * @param $context Context
-     * @param $pool Pool cache handling
      */
-    public function __construct($context, $pool);
+    public function __construct($context);
 
     /**
      * Serve cache html or build it

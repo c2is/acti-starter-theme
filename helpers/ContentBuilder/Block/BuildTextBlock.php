@@ -3,7 +3,6 @@
 namespace ContentBuilder\Block;
 
 use ContentBuilder\Context;
-use Stash\Pool;
 use Timber\Timber;
 
 final class BuildTextBlock implements BuildFieldBlock
@@ -13,15 +12,9 @@ final class BuildTextBlock implements BuildFieldBlock
      */
     private $_context;
 
-    /**
-     * @var Pool
-     */
-    private $_pool;
-
-    public function __construct($context, $pool)
+    public function __construct($context)
     {
         $this->_context = $context;
-        $this->_pool = $pool;
     }
 
     /**
@@ -31,29 +24,7 @@ final class BuildTextBlock implements BuildFieldBlock
      */
     public function renderHtml()
     {
-        $cacheContext = $this->_context->getContext()['cache'];
-        $cacheIsActive = $cacheContext['enabled'];
-
-        if ($cacheIsActive)
-        {
-            $cache = $this->_pool->getItem($cacheContext['key']);
-            $html = $cache->get();
-            if ($cache->isMiss())
-            {
-                $cache->lock();
-
-                $html = $this->buildHtml();
-
-                $cache->set($html);
-                if (absint($cacheContext['duration']) > 0) {
-                    $cache->expiresAfter($cacheContext['duration']);
-                }
-                $this->_pool->save($cache);
-            }
-        }
-        else {
-            $html = $this->buildHtml();
-        }
+        $html = $this->buildHtml();
 
         return $html;
     }
