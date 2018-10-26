@@ -27,4 +27,53 @@ final class Template
 
         return $url;
     }
+
+    /**
+     * Retrieve post object from template
+     *
+     * @param $template string template name
+     * @return null|\WP_Post post object
+     */
+    public static function getTemplatePageObject($template)
+    {
+        $postObject = null;
+        $args = array(
+            'post_type' => 'page',
+            'nopaging' => true,
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $template
+        );
+
+        $pages = get_posts($args);
+        if (!empty($pages)) {
+            $postObject = $pages[0];
+        }
+
+        return $postObject;
+    }
+
+    /**
+     * Retrieve post ID from template
+     *
+     * @param $template string template name
+     * @return null|int post ID
+     */
+    public static function getTemplatePageId($template)
+    {
+        $postID = null;
+        $args = array(
+            'post_type' => 'page',
+            'nopaging' => true,
+            'fields' => 'ids',
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $template
+        );
+
+        $ids = get_posts($args);
+        if (!empty($ids)) {
+            $postID = $ids[0];
+        }
+
+        return $postID;
+    }
 }
