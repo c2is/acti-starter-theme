@@ -23,22 +23,25 @@ class StarterSite extends Timber\Site {
      */
     public function loadFunctionsFiles($functionsDirectory)
     {
-        $files = scandir($functionsDirectory);
-
-        unset($files[array_search('.', $files, true)]);
-        unset($files[array_search('..', $files, true)]);
-
-        // prevent empty ordered elements
-        if (count($files) < 1)
-            return;
-
-        foreach($files as $file)
+        if (file_exists($functionsDirectory))
         {
-            if(is_dir($functionsDirectory . '/' . $file)) {
-                $this->loadFunctionsFiles($functionsDirectory . '/' . $file);
-            }
-            else {
-                require_once $functionsDirectory . '/' . $file;
+            $files = scandir($functionsDirectory);
+
+            unset($files[array_search('.', $files, true)]);
+            unset($files[array_search('..', $files, true)]);
+
+            // prevent empty ordered elements
+            if (count($files) < 1)
+                return;
+
+            foreach($files as $file)
+            {
+                if(is_dir($functionsDirectory . '/' . $file)) {
+                    $this->loadFunctionsFiles($functionsDirectory . '/' . $file);
+                }
+                else {
+                    require_once $functionsDirectory . '/' . $file;
+                }
             }
         }
     }
