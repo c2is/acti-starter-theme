@@ -8,8 +8,12 @@
  * @since   Timber 0.1
  */
 
+use Timber\Timber;
+
 require get_template_directory() . '/vendor/autoload.php';
 require get_template_directory() . '/handler/StarterSite.php';
+
+new Timber();
 
 if ( ! class_exists( 'Timber' ) ) {
 	add_action( 'admin_notices', function() {
