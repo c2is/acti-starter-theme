@@ -1,6 +1,8 @@
 <?php
 
 add_action('after_setup_theme', 'theme_supports');
+add_post_type_support( 'page', 'excerpt' );
+add_post_type_support( 'post', 'excerpt' );
 
 function theme_supports()
 {
