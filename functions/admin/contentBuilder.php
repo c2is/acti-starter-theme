@@ -12,3 +12,6 @@ add_action('save_post', 'ActiCache\Handler\PostCacheHandler::rebuildPostCache', 
 
 /* Show cache layout fields */
 add_filter('acf/prepare_field', 'ContentBuilder\Admin\LayoutCacheAdmin::showLayoutCacheField');
+
+/* Copy content of content builder into post content */
+add_action('save_post', '\ContentBuilder\Admin\SavePostAdmin::flexibleContentToPostContent');
