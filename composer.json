@@ -1,7 +1,7 @@
 {
   "name": "acti/acti-starter-theme",
   "description": "Starter theme to build a Timber theme",
-  "type": "wpackagist-theme",
+  "type": "wordpress-theme",
   "minimum-stability": "stable",
   "authors": [
     {
@@ -15,14 +15,6 @@
       "url": "https://packagist.org"
     }
   ],
-  "extra": {
-    "installer-paths": {
-      "../../plugins/{$name}/": [
-        "wpackagist-plugin/*",
-        "type:wordpress-plugin"
-      ]
-    }
-  },
   "autoload": {
     "psr-0": {
       "ActiCache\\": "helpers/",
