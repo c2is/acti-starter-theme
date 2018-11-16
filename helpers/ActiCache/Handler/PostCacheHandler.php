@@ -16,7 +16,10 @@ final class PostCacheHandler
     {
         self::clearPostCache($postId);
 
-        self::buildPostCache($postId);
+        $cacheEnabled = get_field('options_cache_layout_enable', 'option');
+        if ($cacheEnabled) {
+            self::buildPostCache($postId);
+        }
     }
 
     /**
