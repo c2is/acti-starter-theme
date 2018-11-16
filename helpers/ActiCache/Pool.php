@@ -25,13 +25,16 @@ final class Pool
      */
     private function _setDriver()
     {
-        $driverName = Config::get('CACHE_METHOD');
-        if ($driverName)
+        if (defined('CACHE_METHOD'))
         {
-            $options = Config::get('CACHE_OPTIONS');
-            $driverClass = 'Stash\Driver\\' . $driverName;
-            $driver = new $driverClass($options);
-            $this->_pool->setDriver($driver);
+            $driverName = Config::get('CACHE_METHOD');
+            if ($driverName)
+            {
+                $options = Config::get('CACHE_OPTIONS');
+                $driverClass = 'Stash\Driver\\' . $driverName;
+                $driver = new $driverClass($options);
+                $this->_pool->setDriver($driver);
+            }
         }
     }
 
