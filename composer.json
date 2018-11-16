@@ -1,7 +1,7 @@
 {
   "name": "acti/acti-starter-theme",
   "description": "Starter theme to build a Timber theme",
-  "type": "wordpress-theme",
+  "type": "wpackagist-theme",
   "minimum-stability": "stable",
   "authors": [
     {
