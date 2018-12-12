@@ -10,8 +10,10 @@ class StarterSite extends Timber\Site {
         /* Handle hooks */
         $parentFunctionFolders = get_template_directory() . '/functions/';
         $childFunctionFolders = get_stylesheet_directory() . '/functions/';
+        $childBlocksFolders = get_stylesheet_directory() . '/helpers/ContentBuilder/Block/';
         $this->loadFunctionsFiles($parentFunctionFolders);
         $this->loadFunctionsFiles($childFunctionFolders);
+        $this->loadContentBuilderBlocks($childBlocksFolders);
 
         parent::__construct();
     }
@@ -42,6 +44,31 @@ class StarterSite extends Timber\Site {
                 else {
                     require_once $functionsDirectory . '/' . $file;
                 }
+            }
+        }
+    }
+
+    /**
+     * Load all files under blocks directory, which contains child content builder block classes
+     *
+     * @param $blocksDirectory string path to the blocks directory
+     */
+    public function loadContentBuilderBlocks($blocksDirectory)
+    {
+        if (file_exists($blocksDirectory))
+        {
+            $files = scandir($blocksDirectory);
+
+            unset($files[array_search('.', $files, true)]);
+            unset($files[array_search('..', $files, true)]);
+
+            // prevent empty ordered elements
+            if (count($files) < 1)
+                return;
+
+            foreach($files as $file)
+            {
+                require_once $blocksDirectory . '/' . $file;
             }
         }
     }
