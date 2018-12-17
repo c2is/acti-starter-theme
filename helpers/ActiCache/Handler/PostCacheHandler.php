@@ -17,7 +17,8 @@ final class PostCacheHandler
         self::clearPostCache($postId);
 
         $cacheEnabled = get_field('options_cache_layout_enable', 'option');
-        if ($cacheEnabled) {
+        $preloadCacheEnabled = get_field('options_cache_preload', 'option');
+        if ($cacheEnabled && $preloadCacheEnabled) {
             self::buildPostCache($postId);
         }
     }
