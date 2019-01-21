@@ -16,6 +16,8 @@ final class Template
         $args = array(
             'post_type' => 'page',
             'nopaging' => true,
+            'post_status' => array('publish', 'private'),
+            'suppress_filters'  => 0,
             'meta_key' => '_wp_page_template',
             'meta_value' => $template
         );
@@ -40,6 +42,8 @@ final class Template
         $args = array(
             'post_type' => 'page',
             'nopaging' => true,
+            'post_status' => array('publish', 'private'),
+            'suppress_filters'  => 0,
             'meta_key' => '_wp_page_template',
             'meta_value' => $template
         );
@@ -64,6 +68,8 @@ final class Template
         $args = array(
             'post_type' => 'page',
             'nopaging' => true,
+            'post_status' => array('publish', 'private'),
+            'suppress_filters'  => 0,
             'fields' => 'ids',
             'meta_key' => '_wp_page_template',
             'meta_value' => $template
