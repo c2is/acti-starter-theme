@@ -6,7 +6,8 @@ interface ActiSocialShareInterface
 {
     /**
      * Return social share url
+     * @param $post \WP_Post
      * @return string url
      */
-    public function getShareUrl();
+    public function getShareUrl($post);
 }

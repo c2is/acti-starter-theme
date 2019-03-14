@@ -5,20 +5,18 @@ namespace ActiSocialShare;
 class ActiSocialShare
 {
     /**
-     * @var WP_Post
-     */
-    protected $_post;
-
-    /**
      * ActiSocialShare constructor.
-     * @param $postId int post ID
      */
-    public function __construct($postId)
+    public function __construct()
     {
-        $this->_post = null;
+    }
 
-        if ($postId) {
-            $this->_post = get_post($postId);
-        }
+    public function getFeed($feed)
+    {
+        $className = '\ActiSocialShare\\';
+        $className .= ucfirst($feed);
+        $socialShareClass = new $className();
+
+        return $socialShareClass;
     }
 }
