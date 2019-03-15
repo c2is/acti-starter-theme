@@ -44,7 +44,7 @@ final class Pool
     private function _setNamespace()
     {
         if (is_multisite()) {
-            $namespace = get_current_site()->site;
+            $namespace = get_current_site()->domain;
         }
         else {
             $namespace = get_bloginfo('name');

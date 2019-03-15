@@ -30,12 +30,16 @@ final class PostCacheHandler
      */
     public static function clearPostCache($postId)
     {
-        $actiPool = new Pool();
-        /* @var $pool \Stash\Pool */
-        $pool = $actiPool->getPool();
+        $cacheEnabled = get_field('options_cache_layout_enable', 'option');
+        if ($cacheEnabled)
+        {
+            $actiPool = new Pool();
+            /* @var $pool \Stash\Pool */
+            $pool = $actiPool->getPool();
 
-        $baseCacheKey = CacheKeys::getLayoutBaseCacheKey($postId);
-        $pool->deleteItem($baseCacheKey);
+            $baseCacheKey = CacheKeys::getLayoutBaseCacheKey($postId);
+            $pool->deleteItem($baseCacheKey);
+        }
     }
 
     /**
