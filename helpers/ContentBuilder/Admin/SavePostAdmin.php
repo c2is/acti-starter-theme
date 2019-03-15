@@ -2,6 +2,8 @@
 
 namespace ContentBuilder\Admin;
 
+use ContentBuilder\Context;
+
 final class SavePostAdmin
 {
     /**
@@ -20,6 +22,12 @@ final class SavePostAdmin
         /* Loop the flexible groups content rows */
         if (have_rows('content_group_builder', $postId))
         {
+            $contextData = array(
+                'post' => get_post($postId),
+                'user' => new \Timber\User()
+            );
+            $context = new Context();
+            $context->setContext($contextData);
             while (have_rows('content_group_builder', $postId))
             {
                 the_row();
@@ -31,7 +39,11 @@ final class SavePostAdmin
                     {
                         the_row();
 
-                        $postContent = self::_buildPostContent($postContent, get_row_layout());
+                        /* Layout format in ACF field is my_layout, format it to MyLayout */
+                        $layoutName = str_replace('_', '', ucwords(get_row_layout(), '_'));
+                        $fieldClassName = 'ContentBuilder\Block\Build' . $layoutName . 'Block';
+                        $fieldClass = new $fieldClassName($context);
+                        $postContent .= $fieldClass->renderHtml();
                     }
                 }
             }
@@ -43,30 +55,10 @@ final class SavePostAdmin
             remove_action('save_post', '\ContentBuilder\Admin\SavePostAdmin::flexibleContentToPostContent');
 
             /* call wp_update_post update, which calls save_post again. E.g: */
-            wp_update_post(array('ID' => $postId, 'post_content' => $postContent));
+            wp_update_post(array('ID' => $postId, 'post_content' => wp_strip_all_tags($postContent)));
 
             /* re-hook this function */
             add_action('save_post', '\ContentBuilder\Admin\SavePostAdmin::flexibleContentToPostContent');
         }
-    }
-
-    /**
-     * Build post content with content builder rows
-     *
-     * @param $postContent string
-     * @param $layout string row layout
-     * @return string
-     */
-    private static function _buildPostContent($postContent, $layout)
-    {
-        switch ($layout) :
-
-            case 'text' :
-                $postContent .= wp_strip_all_tags(get_sub_field('text_text'));
-                break;
-
-        endswitch;
-
-        return $postContent;
     }
 }
