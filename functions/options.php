@@ -13,12 +13,14 @@ if (function_exists('acf_add_options_page'))
     acf_add_options_page($optionPageArgs);
 
     /* Admin submenu theme settings */
-    $themeOptionPageArgs = array(
-        'page_title' => 'Options générales du thème',
-        'menu_title' => 'Cache',
-        'parent_slug' => 'theme-general-settings',
-        'capability' => 'edit_cache_general_settings',
-    );
-    acf_add_options_sub_page($themeOptionPageArgs);
+    if (defined('CACHE_METHOD'))
+    {
+        $themeOptionPageArgs = array(
+            'page_title' => 'Options générales du thème',
+            'menu_title' => 'Cache',
+            'parent_slug' => 'theme-general-settings',
+            'capability' => 'edit_cache_general_settings',
+        );
+        acf_add_options_sub_page($themeOptionPageArgs);
+    }
 }
-
