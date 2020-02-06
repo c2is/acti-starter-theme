@@ -49,13 +49,18 @@ final class Capabilities
      */
     public static function removePostTypeCaps($postTypeSlug, $role)
     {
-        $role->add_cap('read_' . $postTypeSlug);
-        $role->add_cap('delete_' . $postTypeSlug);
-        $role->add_cap('edit_' . $postTypeSlug . 's');
-        $role->add_cap('edit_others_' . $postTypeSlug . 's');
-        $role->add_cap('publish_' . $postTypeSlug . 's');
-        $role->add_cap('read_private_' . $postTypeSlug . 's');
-        $role->add_cap('edit_' . $postTypeSlug . 's');
+        $role->remove_cap('read_' . $postTypeSlug);
+        $role->remove_cap('read_private_' . $postTypeSlug . 's');
+        $role->remove_cap('edit_' . $postTypeSlug);
+        $role->remove_cap('edit_' . $postTypeSlug . 's');
+        $role->remove_cap('edit_private_' . $postTypeSlug . 's');
+        $role->remove_cap('edit_others_' . $postTypeSlug . 's');
+        $role->remove_cap('edit_published_' . $postTypeSlug . 's');
+        $role->remove_cap('delete_' . $postTypeSlug);
+        $role->remove_cap('delete_private_' . $postTypeSlug . 's');
+        $role->remove_cap('delete_published_' . $postTypeSlug . 's');
+        $role->remove_cap('delete_others_' . $postTypeSlug . 's');
+        $role->remove_cap('publish_' . $postTypeSlug . 's');
     }
 
     /**
